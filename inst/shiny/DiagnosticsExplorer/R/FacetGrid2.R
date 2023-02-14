@@ -150,7 +150,7 @@ new_grid_facets <- function(
     axes = axes
   ))
   
-  ggproto(
+  ggplot2::ggproto(
     NULL, super,
     shrink = shrink,
     strip  = strip,
@@ -173,7 +173,7 @@ new_grid_facets <- function(
 #' @format NULL
 #' @export
 #' @rdname ggh4x_extensions
-FacetGrid2 <- ggproto(
+FacetGrid2 <- ggplot2::ggproto(
   "FacetGrid2", FacetGrid,
   vars_combine = function(...) {
     combine_vars(...)
