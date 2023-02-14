@@ -174,7 +174,7 @@ new_grid_facets <- function(
 #' @export
 #' @rdname ggh4x_extensions
 FacetGrid2 <- ggplot2::ggproto(
-  "FacetGrid2", FacetGrid,
+  "FacetGrid2", ggplot2::FacetGrid,
   vars_combine = function(...) {
     combine_vars(...)
   },
