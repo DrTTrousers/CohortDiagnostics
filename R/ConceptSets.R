@@ -961,7 +961,7 @@ runConceptSetDiagnostics <- function(connection,
   writeToCsv(
     resolvedConceptIds,
     file.path(exportFolder, "resolved_concepts.csv"),
-    incremental = TRUE
+    incremental = incremental
   )
 
   ParallelLogger::logTrace("Dropping temp concept set table")
