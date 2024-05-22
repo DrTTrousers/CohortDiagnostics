@@ -179,10 +179,10 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
   )
 
   tsSetUpSql <- "-- #time_series
-                DROP TABLE IF EXISTS @tempEmulationSchema.#time_series;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#c_time_series1;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#c_time_series2;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#c_time_series3;"
+                DROP TABLE IF EXISTS #time_series;
+                DROP TABLE IF EXISTS #c_time_series1;
+                DROP TABLE IF EXISTS #c_time_series2;
+                DROP TABLE IF EXISTS #c_time_series3;"
 
   ParallelLogger::logTrace(" - Dropping any time_series temporary tables that maybe present at start up.")
   DatabaseConnector::renderTranslateExecuteSql(
@@ -211,7 +211,7 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
   ParallelLogger::logTrace(" - Beginning time series SQL")
 
   sqlCohortDrop <-
-    "DROP TABLE IF EXISTS @tempEmulationSchema.#cohort_ts;"
+    "DROP TABLE IF EXISTS #cohort_ts;"
   ParallelLogger::logTrace("   - Dropping any cohort temporary tables used by time series")
   DatabaseConnector::renderTranslateExecuteSql(
     connection = connection,
@@ -220,13 +220,13 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
     progressBar = FALSE,
     reportOverallTime = FALSE
   )
-  sqlCohort <- "DROP TABLE IF EXISTS @tempEmulationSchema.#ts_cohort;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#ts_cohort_first;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#ts_output;
+  sqlCohort <- "DROP TABLE IF EXISTS #ts_cohort;
+                DROP TABLE IF EXISTS #ts_cohort_first;
+                DROP TABLE IF EXISTS #ts_output;
 
                 --HINT DISTRIBUTE_ON_KEY(subject_id)
                 SELECT *
-                INTO @tempEmulationSchema.#ts_cohort
+                INTO #ts_cohort
                 FROM @cohort_database_schema.@cohort_table {@cohort_ids != '' } ? {
                 WHERE cohort_definition_id IN (@cohort_ids) };
 
@@ -249,9 +249,9 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
                 		END first_occurrence {@stratify_by_gender} ? {,
                 	concept.concept_name gender} {@stratify_by_age_group} ? {,
                 	p.year_of_birth}
-                INTO @tempEmulationSchema.#cohort_ts
-                FROM @tempEmulationSchema.#ts_cohort c
-                INNER JOIN @tempEmulationSchema.#ts_cohort_first cf
+                INTO #cohort_ts
+                FROM #ts_cohort c
+                INNER JOIN #ts_cohort_first cf
                 	ON c.cohort_definition_id = cf.cohort_definition_id
                 		AND c.subject_id = cf.subject_id {@stratify_by_gender | @stratify_by_age_group} ? {
                 INNER JOIN @cdm_database_schema.person p
@@ -259,8 +259,8 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
                 INNER JOIN @cdm_database_schema.concept
                 	ON p.gender_concept_id = concept.concept_id};
 
-                DROP TABLE IF EXISTS @tempEmulationSchema.#ts_cohort;
-                DROP TABLE IF EXISTS @tempEmulationSchema.#ts_cohort_first;"
+                DROP TABLE IF EXISTS #ts_cohort;
+                DROP TABLE IF EXISTS #ts_cohort_first;"
 
   if (runCohortTimeSeries) {
     ParallelLogger::logTrace("   - Creating cohort table copy for time series")
@@ -476,7 +476,7 @@ runCohortTimeSeriesDiagnostics <- function(connectionDetails = NULL,
   DatabaseConnector::renderTranslateExecuteSql(
     connection = connection,
     tempEmulationSchema = tempEmulationSchema,
-    sql = "DROP TABLE IF EXISTS @tempEmulationSchema.#calendar_periods;",
+    sql = "DROP TABLE IF EXISTS #calendar_periods;",
     progressBar = FALSE,
     reportOverallTime = FALSE
   )
