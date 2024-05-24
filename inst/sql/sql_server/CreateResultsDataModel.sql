@@ -219,20 +219,20 @@ CREATE TABLE @results_schema.@cohort_relationships (
 			sub_cs_window_ts BIGINT NOT NULL,
 			rec_cs_window_ts BIGINT NOT NULL,
 			sub_cs_window_te BIGINT NOT NULL,
-			rec_cs_window_te BIGINT NOT NULL,
-			sub_ce_window_ts BIGINT NOT NULL,
-			rec_ce_window_ts BIGINT NOT NULL,
-			sub_ce_window_te BIGINT NOT NULL,
-			rec_ce_window_te BIGINT NOT NULL,
-			sub_c_within_t BIGINT NOT NULL,
-			rec_c_within_t BIGINT NOT NULL,
-			c_days_before_ts BIGINT NOT NULL,
-			c_days_before_te BIGINT NOT NULL,
-			c_days_within_t_days BIGINT NOT NULL,
-			c_days_after_ts BIGINT NOT NULL,
-			c_days_after_te BIGINT NOT NULL,
-			t_days BIGINT NOT NULL,
-			c_days BIGINT NOT NULL,
+			rec_cs_window_te BIGINT, --NOT NULL,
+			sub_ce_window_ts BIGINT, --NOT NULL,
+			rec_ce_window_ts BIGINT, --NOT NULL,
+			sub_ce_window_te BIGINT, --NOT NULL,
+			rec_ce_window_te BIGINT, --NOT NULL,
+			sub_c_within_t BIGINT, --NOT NULL,
+			rec_c_within_t BIGINT, --NOT NULL,
+			c_days_before_ts BIGINT, --NOT NULL,
+			c_days_before_te BIGINT, --NOT NULL,
+			c_days_within_t_days BIGINT, --NOT NULL,
+			c_days_after_ts BIGINT, --NOT NULL,
+			c_days_after_te BIGINT, --NOT NULL,
+			t_days BIGINT, --NOT NULL,
+			c_days BIGINT, --NOT NULL,
 			PRIMARY KEY(database_id, cohort_id, comparator_cohort_id, start_day, end_day)
 );
 
@@ -280,7 +280,7 @@ CREATE TABLE @results_schema.@concept_relationship (
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@concept_sets (
 			cohort_id BIGINT NOT NULL,
-			concept_set_id INT NOT NULL,
+			concept_set_id BIGINT NOT NULL,
 			concept_set_sql VARCHAR NOT NULL,
 			concept_set_name VARCHAR(255) NOT NULL,
 			concept_set_expression VARCHAR NOT NULL,
@@ -336,7 +336,7 @@ CREATE TABLE @results_schema.@incidence_rate (
 CREATE TABLE @results_schema.@included_source_concept (
 			database_id VARCHAR NOT NULL,
 			cohort_id BIGINT NOT NULL,
-			concept_set_id INT NOT NULL,
+			concept_set_id BIGINT NOT NULL,
 			concept_id BIGINT NOT NULL,
 			source_concept_id BIGINT, -- REMOVED NOT NULL
 			concept_subjects BIGINT NOT NULL,
@@ -385,7 +385,7 @@ CREATE TABLE @results_schema.@metadata (
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@orphan_concept (
 			cohort_id BIGINT NOT NULL,
-			concept_set_id INT NOT NULL,
+			concept_set_id BIGINT NOT NULL,
 			database_id VARCHAR NOT NULL,
 			concept_id BIGINT NOT NULL,
 			concept_count BIGINT NOT NULL,
@@ -409,7 +409,7 @@ CREATE TABLE @results_schema.@relationship (
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@resolved_concepts (
 			cohort_id BIGINT NOT NULL,
-			concept_set_id INT NOT NULL,
+			concept_set_id BIGINT NOT NULL,
 			concept_id BIGINT NOT NULL,
 			database_id VARCHAR NOT NULL,
 			PRIMARY KEY(cohort_id, concept_set_id, concept_id, database_id)
@@ -418,7 +418,7 @@ CREATE TABLE @results_schema.@resolved_concepts (
 --Table temporal_analysis_ref
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@temporal_analysis_ref (
-			analysis_id INT NOT NULL,
+			analysis_id BIGINT NOT NULL,
 			analysis_name VARCHAR NOT NULL,
 			domain_id VARCHAR(20) NOT NULL,
 			is_binary VARCHAR(1) NOT NULL,
@@ -431,7 +431,7 @@ CREATE TABLE @results_schema.@temporal_analysis_ref (
 CREATE TABLE @results_schema.@temporal_covariate_ref (
 			covariate_id BIGINT NOT NULL,
 			covariate_name VARCHAR NOT NULL,
-			analysis_id INT NOT NULL,
+			analysis_id BIGINT NOT NULL,
 			concept_id BIGINT NOT NULL,
 			PRIMARY KEY(covariate_id)
 );
@@ -440,7 +440,7 @@ CREATE TABLE @results_schema.@temporal_covariate_ref (
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@temporal_covariate_value (
 			cohort_id BIGINT NOT NULL,
-			time_id INT NOT NULL,
+			time_id BIGINT NOT NULL,
 			covariate_id BIGINT NOT NULL,
 			sum_value FLOAT NOT NULL,
 			mean FLOAT NOT NULL,
@@ -453,7 +453,7 @@ CREATE TABLE @results_schema.@temporal_covariate_value (
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@temporal_covariate_value_dist (
 			cohort_id BIGINT NOT NULL,
-			time_id INT NOT NULL,
+			time_id BIGINT NOT NULL,
 			covariate_id BIGINT NOT NULL,
 			count_value FLOAT NOT NULL,
 			min_value FLOAT NOT NULL,
@@ -472,7 +472,7 @@ CREATE TABLE @results_schema.@temporal_covariate_value_dist (
 --Table temporal_time_ref
 --HINT DISTRIBUTE ON RANDOM
 CREATE TABLE @results_schema.@temporal_time_ref (
-			time_id INT NOT NULL,
+			time_id BIGINT NOT NULL,
 			start_day BIGINT NOT NULL,
 			end_day BIGINT NOT NULL,
 			PRIMARY KEY(time_id)
