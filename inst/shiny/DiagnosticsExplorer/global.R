@@ -79,7 +79,7 @@ if (FALSE) {
   require(RSQLite)
 }
 
-connectionHandler <- ResultModelManager::PooledConnectionHandler$new(shinySettings$connectionDetails)
+connectionHandler <- ResultModelManager::ConnectionHandler$new(shinySettings$connectionDetails)
 
 
 if (packageVersion("OhdsiShinyModules") >= as.numeric_version("1.2.0")) {
